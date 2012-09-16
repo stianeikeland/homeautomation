@@ -1,0 +1,18 @@
+{
+  "author": "Stian Eikeland <stian@eikeland.se>",
+  "name": "broker",
+  "description": "ØMQ message broker for home automation system",
+  "version": "0.0.1",
+  "repository": {
+    "url": ""
+  },
+  "dependencies": {
+	"coffee-script":"*",
+	"zmq":"*"
+	},
+  "devDependencies": {},
+  "optionalDependencies": {},
+  "engines": {
+    "node": "*"
+  }
+}
