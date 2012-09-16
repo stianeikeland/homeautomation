@@ -1,0 +1,19 @@
+{
+  "author": "Stian Eikeland <stian@eikeland.se>",
+  "name": "mcu-relay",
+  "description": "ØMQ <=> microcontroller relay - used to read sensors and control htpc receiver",
+  "version": "0.0.1",
+  "repository": {
+    "url": ""
+  },
+  "dependencies": {
+	"coffee-script":"*",
+	"zmq":"*",
+	"serialport":"*"
+	},
+  "devDependencies": {},
+  "optionalDependencies": {},
+  "engines": {
+    "node": "*"
+  }
+}
