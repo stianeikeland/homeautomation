@@ -41,6 +41,8 @@ serial.on "data", (data) ->
 
 		if jdata.nodeid? and locationMapping[jdata.nodeid]?
 			jdata.location = locationMapping[jdata.nodeid]
+		else
+			jdata.location = "unknown"
 
 		brokerPush.send JSON.stringify jdata
 	catch err
