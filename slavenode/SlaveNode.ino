@@ -4,7 +4,7 @@
 #include <OneWire.h>
 #include <DallasTemperature.h>
 
-#define NODEID 2
+#define NODEID 3
 #define CHANNELGROUP 1
 
 #define TEMPERATURE_PORT 3
