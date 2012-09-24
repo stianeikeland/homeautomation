@@ -9,10 +9,16 @@ brokerPush = zmq.socket 'push'
 brokerPush.identity = 'relaypush' + process.pid
 brokerSub.identity = 'relaysub' + process.pid
 
-serialOpt = {
+locationMapping =
+	1: "livingroom-tv",
+	2: "refrigerator",
+	3: "livingroom-bookshelf",
+	4: "bedroom",
+	5: "bathroom"
+
+serialOpt =
 	baudrate: 57600,
 	parser: serialport.parsers.readline("\n")
-}
 
 brokerSub.connect brokerSubAddr, (err) ->
 	throw err if err
@@ -31,6 +37,11 @@ serial.on "data", (data) ->
 	try
 		jdata = JSON.parse data
 		jdata.event = "sensor"
+		jdata.timestamp = new Date()
+
+		if jdata.nodeid? and locationMapping[jdata.nodeid]?
+			jdata.location = locationMapping[jdata.nodeid]
+
 		brokerPush.send JSON.stringify jdata
 	catch err
 		console.log "Err.. data is not json"
