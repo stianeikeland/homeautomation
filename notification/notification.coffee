@@ -1,3 +1,5 @@
+# Notification service for home automation system
+
 require 'coffee-script'
 
 nconf   = require 'nconf'
@@ -27,13 +29,15 @@ brokerSub.subscribe 'notification'
 
 emailTarget = (target, pkg) ->
 	console.log "Emailing notification to #{target}"
-	email.send target, pkg.subject || "", pkg.content || "", (err, msg) ->
-		console log err || msg
+	email.send target, pkg.subject or "", pkg.content or "", (err, msg) ->
+		console.log err or msg
 
 handlePkg = (pkg) ->
 	switch pkg.action
 		when "email"
-			targets = (nconf.get 'defaultEmailTargets') || []
+			targets = pkg.targets or (nconf.get 'defaultEmailTargets') or []
+			targets = [targets] if typeof targets is "string"
+
 			emailTarget target, pkg for target in targets
 		else
 			console.log "Unknown service.."
@@ -43,15 +47,13 @@ brokerSub.on 'message', (topic, data) ->
 	try
 		pkg = JSON.parse data
 
-		pkg.action = pkg.action || notificationActions.default
+		pkg.action = pkg.action or notificationActions.default
 		pkg.action = notificationActions.default if not notificationActions[pkg.action]?
 
 		handlePkg pkg
 
 	catch error
 		console.dir error
-
-#handlePkg {action: "email", subject: "ehi", content: "content"}
 
 process.on 'SIGINT', () ->
 	brokerSub.close()
