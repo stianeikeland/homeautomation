@@ -1,0 +1,21 @@
+{
+  "author": "Stian Eikeland <stian@eikeland.se>",
+  "name": "notification",
+  "description": "Notification service for home automation system",
+  "version": "0.0.1",
+  "repository": {
+    "url": ""
+  },
+  "dependencies": {
+	"coffee-script":"*",
+	"zmq":"*",
+	"underscore":"*",
+	"emailjs":"*",
+	"nconf":"*"
+	},
+  "devDependencies": {},
+  "optionalDependencies": {},
+  "engines": {
+    "node": "*"
+  }
+}
