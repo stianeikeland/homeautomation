@@ -38,16 +38,16 @@ brokerSub.subscribe 'notification'
 emailTarget = (target, pkg) ->
 	console.log "Emailing notification to #{target}"
 	email.send target, pkg.subject, pkg.content, (err, msg) ->
-		console.log err || msg
+		console.log err or msg
 
 handlePkg = (pkg) ->
 
-	pkg.subject = pkg.subject || ""
-	pkg.content = pkg.content || ""
+	pkg.subject = pkg.subject or ""
+	pkg.content = pkg.content or ""
 
 	switch pkg.action
 		when "email"
-			targets = pkg.targets || (nconf.get 'defaultEmailTargets') || []
+			targets = pkg.targets or (nconf.get 'defaultEmailTargets') || []
 			targets = [targets] if typeof targets is "string"
 
 			emailTarget target, pkg for target in targets
@@ -64,7 +64,7 @@ brokerSub.on 'message', (topic, data) ->
 	try
 		pkg = JSON.parse data
 
-		pkg.action = pkg.action || notificationActions.default
+		pkg.action = pkg.action or notificationActions.default
 		pkg.action = notificationActions.default if not notificationActions[pkg.action]?
 
 		handlePkg pkg
