@@ -77,5 +77,5 @@ brokerSub.on 'message', (topic, data) ->
 	catch err
 		console.log "Invalid packet: #{err}"
 
-
-#setTimeout volumeUp, 2000
+process.on 'SIGINT', () ->
+	brokerSub.close()
