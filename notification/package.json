@@ -11,7 +11,8 @@
 	"zmq":"*",
 	"underscore":"*",
 	"emailjs":"*",
-	"nconf":"*"
+	"nconf":"*",
+	"prowl":"*"
 	},
   "devDependencies": {},
   "optionalDependencies": {},

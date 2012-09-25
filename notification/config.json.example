@@ -4,5 +4,8 @@
 		"from": "Home Automation <home@mail.com>",
 		"domain": "mail.com"
 	},
-	"defaultEmailTargets": ["Target name <target@mail.com>"]
+	"defaultEmailTargets": ["Target name <target@mail.com>"],
+	"prowl": {
+		"apikey": "xxxxxxxx"
+	}
 }
