@@ -54,7 +54,7 @@ checkRefrigeratorTemperature = (pkg) ->
 
 		if highFridgeTempCounter >= 10 and not muteEvent["refrigerator-temp"]
 			notify "Refrigerator temperatur high", "Refrigerator temperature is #{pkg.temperature}"
-			setMuteEvent "refrigerator-temp"
+			setMuteEvent "refrigerator-temp", 60*60*1000
 
 brokerSub.on 'message', (topic, pkg) ->
 	try
