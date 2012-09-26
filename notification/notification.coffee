@@ -47,7 +47,7 @@ handlePkg = (pkg) ->
 
 	switch pkg.action
 		when "email"
-			targets = pkg.targets or (nconf.get 'defaultEmailTargets') || []
+			targets = pkg.targets or (nconf.get 'defaultEmailTargets') or []
 			targets = [targets] if typeof targets is "string"
 
 			emailTarget target, pkg for target in targets
@@ -65,7 +65,11 @@ brokerSub.on 'message', (topic, data) ->
 		pkg = JSON.parse data
 
 		pkg.action = pkg.action or notificationActions.default
-		pkg.action = notificationActions.default if not notificationActions[pkg.action]?
+
+		if not notificationActions[pkg.action]?
+			pkg.action = notificationActions.default
+		else
+			pkg.action = notificationActions[pkg.action]
 
 		handlePkg pkg
 

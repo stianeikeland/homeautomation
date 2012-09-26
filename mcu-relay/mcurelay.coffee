@@ -79,3 +79,4 @@ brokerSub.on 'message', (topic, data) ->
 
 process.on 'SIGINT', () ->
 	brokerSub.close()
+	brokerPush.close()
