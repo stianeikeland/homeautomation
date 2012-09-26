@@ -61,19 +61,19 @@ void sendSRCommand(unsigned long data)
 {
 	sendSRPulse(SR_HDR_MARK);
 	delayMicroseconds(SR_HDR_SPACE);
-	
+
 	for (int i = 0; i < SR_BIT_LENGTH; i++) {
-	
+
 		sendSRPulse(SR_BIT_MARK);
-		
+
 		if (data & SR_FIRSTBIT)
 			delayMicroseconds(SR_ONE_SPACE);
 		else
 			delayMicroseconds(SR_ZERO_SPACE);
-		
+
 		data <<= 1;
 	}
-	
+
 	sendSRPulse(SR_BIT_MARK);
 }
 
@@ -109,7 +109,7 @@ void resetSerialBuffer()
 void parseSerialBuffer()
 {
 	String buffer = String(serialData);
-	
+
 	if (buffer.startsWith("SR,VOLUP"))
 		sendSRCommand(SR_VOLUME_UP);
 	else if (buffer.startsWith("SR,VOLDOWN"))

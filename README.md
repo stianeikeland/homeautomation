@@ -19,10 +19,10 @@ Runs on a raspberry pi, connected to a microcontroller over serial/ttl. Receives
 
 NodeJS/Coffee-script
 
-[MasterNode](https://github.com/stianeikeland/homeautomation/tree/master/masternode) (microcontroller)
+[MasterNode](https://github.com/stianeikeland/homeautomation/tree/master/microcontroller/masternode) (microcontroller)
 ------------
 Code for Master Node - receives wireless messages from sensor-nodes. Controls home cinema receiver via it's pioneer SR bus.
 
-[SlaveNode](https://github.com/stianeikeland/homeautomation/tree/master/slavenode) (microcontroller)
+[SlaveNode](https://github.com/stianeikeland/homeautomation/tree/master/microcontroller/slavenode) (microcontroller)
 ------------
 Code for Slave/Sensor Node - battery powered and wireless. Spends most of the time sleeping, wakes up, reads sensors and transmits results to master node.

@@ -111,9 +111,7 @@ void loop()
 	// Read sensors and transmit to master node
 	prepareSensorData();
 	sendSensorData();
-	
+
 	// Put microcontroller to sleep for x seconds
 	Sleepy::loseSomeTime(SLEEPTIME * 1000);
 }
-
-
