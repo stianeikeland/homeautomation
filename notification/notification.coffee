@@ -3,9 +3,17 @@
 require 'coffee-script'
 
 nconf   = require 'nconf'
-zmq     = require 'zmq'
 Email   = (require './lib/email').Email
 Prowl   = (require './lib/prowl').Prowl
+MessageBus = (require '../common/bus/messagebus').MessageBus
+
+# Set up zmq socket, connect and subscribe to notification events
+bus = new MessageBus {
+	subAddress: 'tcp://raspberrypi:9999',
+	pushAddress: 'tcp://raspberrypi:8888',
+	subscribe: ["notification"],
+	identity: "notification"
+}
 
 notificationActions =
 	email: "email",
@@ -23,17 +31,6 @@ email = new Email nconf.get 'email'
 
 # Set up Prowl (iOS push)
 prowl = new Prowl (nconf.get 'prowl').apikey
-
-# Set up zmq socket, connect and subscribe to notification events
-brokerSubAddr = 'tcp://127.0.0.1:9999'
-brokerSub = zmq.socket 'sub'
-brokerSub.identity = 'notification' + process.pid
-
-brokerSub.connect brokerSubAddr, (err) ->
-	throw err if err
-	console.log 'Sub Broker connected!'
-
-brokerSub.subscribe 'notification'
 
 emailTarget = (target, pkg) ->
 	console.log "Emailing notification to #{target}"
@@ -60,7 +57,7 @@ handlePkg = (pkg) ->
 			console.log "Unknown service.."
 
 
-brokerSub.on 'message', (topic, data) ->
+bus.on 'message', (topic, data) ->
 	try
 		pkg = JSON.parse data
 
@@ -77,4 +74,4 @@ brokerSub.on 'message', (topic, data) ->
 		console.dir error
 
 process.on 'SIGINT', () ->
-	brokerSub.close()
+	bus.close()

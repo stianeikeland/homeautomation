@@ -1,13 +1,12 @@
 serialport = require 'serialport'
-zmq = require 'zmq'
+MessageBus = (require '../common/bus/messagebus').MessageBus
 
-brokerSubAddr = 'tcp://127.0.0.1:9999'
-brokerPushAddr = 'tcp://127.0.0.1:8888'
-brokerSub = zmq.socket 'sub'
-brokerPush = zmq.socket 'push'
-
-brokerPush.identity = 'relaypush' + process.pid
-brokerSub.identity = 'relaysub' + process.pid
+bus = new MessageBus {
+	subAddress: 'tcp://raspberrypi:9999',
+	pushAddress: 'tcp://raspberrypi:8888',
+	subscribe: ["receiver"],
+	identity: "mcu-relay"
+}
 
 locationMapping =
 	1: "livingroom-tv",
@@ -19,16 +18,6 @@ locationMapping =
 serialOpt =
 	baudrate: 57600,
 	parser: serialport.parsers.readline("\n")
-
-brokerSub.connect brokerSubAddr, (err) ->
-	throw err if err
-	console.log 'Sub Broker connected!'
-
-brokerPush.connect brokerPushAddr, (err) ->
-	throw err if err
-	console.log 'Push Broker connected!'
-
-brokerSub.subscribe 'receiver'
 
 serial = new serialport.SerialPort "/dev/ttyAMA0", serialOpt
 
@@ -44,7 +33,7 @@ serial.on "data", (data) ->
 		else
 			jdata.location = "unknown"
 
-		brokerPush.send JSON.stringify jdata
+		bus.send jdata
 	catch err
 		console.log "Err.. data is not json"
 
@@ -61,7 +50,7 @@ receiverVolumeDown = (count = 1) ->
 receiverTogglePower = () ->
 	serial.write "\nSR,POWER\n"
 
-brokerSub.on 'message', (topic, data) ->
+bus.on 'message', (topic, data) ->
 	try
 		pkg = JSON.parse data
 		console.log "Got message: #{JSON.stringify pkg}"
@@ -78,5 +67,4 @@ brokerSub.on 'message', (topic, data) ->
 		console.log "Invalid packet: #{err}"
 
 process.on 'SIGINT', () ->
-	brokerSub.close()
-	brokerPush.close()
+	bus.close()

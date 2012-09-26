@@ -1,22 +1,12 @@
-zmq = require 'zmq'
+require 'coffee-script'
+MessageBus = (require '../common/bus/messagebus').MessageBus
 
-brokerSubAddr = 'tcp://raspberrypi:9999'
-brokerPushAddr = 'tcp://raspberrypi:8888'
-brokerSub = zmq.socket 'sub'
-brokerPush = zmq.socket 'push'
-
-brokerPush.identity = 'trigger' + process.pid
-brokerSub.identity = 'trigger' + process.pid
-
-brokerSub.connect brokerSubAddr, (err) ->
-	throw err if err
-	console.log 'Sub Broker connected!'
-
-brokerPush.connect brokerPushAddr, (err) ->
-	throw err if err
-	console.log 'Push Broker connected!'
-
-brokerSub.subscribe 'sensor'
+bus = new MessageBus {
+	subAddress: 'tcp://raspberrypi:9999',
+	pushAddress: 'tcp://raspberrypi:8888',
+	subscribe: ["sensor"],
+	identity: "triggers"
+}
 
 muteEvent = {}
 highFridgeTempCounter = 0
@@ -34,8 +24,8 @@ notify = (subject, content, action = 'prowl') ->
 		content: content,
 		action: action
 
+	bus.send data
 	console.log "Sending notification >> #{JSON.stringify data}"
-	brokerPush.send JSON.stringify data
 
 # Warn if any sensors drop below 3.10v
 checkSensorVoltage = (pkg) ->
@@ -56,7 +46,7 @@ checkRefrigeratorTemperature = (pkg) ->
 			notify "Refrigerator temperatur high", "Refrigerator temperature is #{pkg.temperature}"
 			setMuteEvent "refrigerator-temp", 60*60*1000
 
-brokerSub.on 'message', (topic, pkg) ->
+bus.on 'message', (topic, pkg) ->
 	try
 		pkg = JSON.parse pkg
 
@@ -67,5 +57,4 @@ brokerSub.on 'message', (topic, pkg) ->
 		console.log error
 
 process.on 'SIGINT', () ->
-	brokerSub.close()
-	brokerPush.close()
+	bus.close()
