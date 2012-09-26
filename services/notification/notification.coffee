@@ -5,7 +5,7 @@ require 'coffee-script'
 nconf   = require 'nconf'
 Email   = (require './lib/email').Email
 Prowl   = (require './lib/prowl').Prowl
-MessageBus = (require '../common/bus/messagebus').MessageBus
+MessageBus = (require '../../common/bus/messagebus').MessageBus
 
 # Set up zmq socket, connect and subscribe to notification events
 bus = new MessageBus {

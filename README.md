@@ -13,7 +13,7 @@ Simple message broker with two zeromq sockets. One push/pull (input) and one pub
 
 NodeJS/Coffee-script
 
-[MCU-Relay](https://github.com/stianeikeland/homeautomation/tree/master/mcu-relay)
+[MCU-Relay](https://github.com/stianeikeland/homeautomation/tree/master/services/mcu-relay)
 ---------
 Runs on a raspberry pi, connected to a microcontroller over serial/ttl. Receives messages sent by sensor-nodes (example temperature) and relays them to the message broker. Also receives (home cinema)-receiver events from the bus and relays them to the microcontroller.
 

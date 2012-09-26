@@ -1,5 +1,5 @@
 require 'coffee-script'
-MessageBus = (require '../common/bus/messagebus').MessageBus
+MessageBus = (require '../../common/bus/messagebus').MessageBus
 
 bus = new MessageBus {
 	subAddress: 'tcp://raspberrypi:9999',

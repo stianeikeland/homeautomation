@@ -1,5 +1,5 @@
 serialport = require 'serialport'
-MessageBus = (require '../common/bus/messagebus').MessageBus
+MessageBus = (require '../../common/bus/messagebus').MessageBus
 
 bus = new MessageBus {
 	subAddress: 'tcp://raspberrypi:9999',
@@ -54,15 +54,15 @@ bus.on 'message', (topic, data) ->
 	try
 		pkg = JSON.parse data
 		console.log "Got message: #{JSON.stringify pkg}"
-		
+
 		if not pkg.count?
 			pkg.count = 1
-		
+
 		if pkg.action?
 			receiverTogglePower() if pkg.action is "power"
 			receiverVolumeUp(pkg.count) if pkg.action is "volumeup"
 			receiverVolumeDown(pkg.count) if pkg.action is "volumedown"
-		
+
 	catch err
 		console.log "Invalid packet: #{err}"
 
