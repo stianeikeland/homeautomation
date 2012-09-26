@@ -42,8 +42,8 @@ emailTarget = (target, pkg) ->
 
 handlePkg = (pkg) ->
 
-	pkg.subject = pkg.subject or ""
-	pkg.content = pkg.content or ""
+	pkg.subject ?= ""
+	pkg.content ?= ""
 
 	switch pkg.action
 		when "email"
