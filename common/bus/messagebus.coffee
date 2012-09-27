@@ -50,10 +50,6 @@ class MessageBus extends events.EventEmitter
 
 		@sub.subscribe topic for topic in topics
 
-#	on: (event, callback) ->
-#		@emitter.on event, callback
-#		@sub.on event, callback
-
 	close: () ->
 		@sub.close()
 		@push.close()
