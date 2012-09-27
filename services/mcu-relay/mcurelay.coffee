@@ -5,7 +5,7 @@ bus = new MessageBus {
 	subAddress: 'tcp://raspberrypi:9999',
 	pushAddress: 'tcp://raspberrypi:8888',
 	subscribe: ["receiver"],
-	identity: "mcu-relay"
+	identity: "mcu-relay-#{process.pid}"
 }
 
 locationMapping =
@@ -50,21 +50,15 @@ receiverVolumeDown = (count = 1) ->
 receiverTogglePower = () ->
 	serial.write "\nSR,POWER\n"
 
-bus.on 'message', (topic, data) ->
-	try
-		pkg = JSON.parse data
-		console.log "Got message: #{JSON.stringify pkg}"
+bus.on 'event', (topic, data) ->
+	console.log "Got message: #{JSON.stringify data}"
+	data.count = 1 if not pkg.count?
 
-		if not pkg.count?
-			pkg.count = 1
+	if data.action?
+		receiverTogglePower() if data.action is "power"
+		receiverVolumeUp(pkg.count) if data.action is "volumeup"
+		receiverVolumeDown(pkg.count) if data.action is "volumedown"
 
-		if pkg.action?
-			receiverTogglePower() if pkg.action is "power"
-			receiverVolumeUp(pkg.count) if pkg.action is "volumeup"
-			receiverVolumeDown(pkg.count) if pkg.action is "volumedown"
-
-	catch err
-		console.log "Invalid packet: #{err}"
 
 process.on 'SIGINT', () ->
 	bus.close()

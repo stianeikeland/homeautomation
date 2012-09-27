@@ -5,7 +5,7 @@ bus = new MessageBus {
 	subAddress: 'tcp://raspberrypi:9999',
 	pushAddress: 'tcp://raspberrypi:8888',
 	subscribe: ["sensor"],
-	identity: "triggers"
+	identity: "triggers-#{process.pid}"
 }
 
 muteEvent = {}
@@ -46,15 +46,9 @@ checkRefrigeratorTemperature = (pkg) ->
 			notify "Refrigerator temperatur high", "Refrigerator temperature is #{pkg.temperature}"
 			setMuteEvent "refrigerator-temp", 60*60*1000
 
-bus.on 'message', (topic, pkg) ->
-	try
-		pkg = JSON.parse pkg
-
-		checkSensorVoltage pkg
-		checkRefrigeratorTemperature pkg
-
-	catch error
-		console.log error
+bus.on 'event', (topic, pkg) ->
+	checkSensorVoltage pkg
+	checkRefrigeratorTemperature pkg
 
 process.on 'SIGINT', () ->
 	bus.close()

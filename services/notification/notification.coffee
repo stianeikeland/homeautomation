@@ -12,7 +12,7 @@ bus = new MessageBus {
 	subAddress: 'tcp://raspberrypi:9999',
 	pushAddress: 'tcp://raspberrypi:8888',
 	subscribe: ["notification"],
-	identity: "notification"
+	identity: "notification-#{process.pid}"
 }
 
 notificationActions =
@@ -57,21 +57,15 @@ handlePkg = (pkg) ->
 			console.log "Unknown service.."
 
 
-bus.on 'message', (topic, data) ->
-	try
-		pkg = JSON.parse data
+bus.on 'event', (topic, pkg) ->
+	pkg.action = pkg.action or notificationActions.default
 
-		pkg.action = pkg.action or notificationActions.default
+	if not notificationActions[pkg.action]?
+		pkg.action = notificationActions.default
+	else
+		pkg.action = notificationActions[pkg.action]
 
-		if not notificationActions[pkg.action]?
-			pkg.action = notificationActions.default
-		else
-			pkg.action = notificationActions[pkg.action]
-
-		handlePkg pkg
-
-	catch error
-		console.dir error
+	handlePkg pkg
 
 process.on 'SIGINT', () ->
 	bus.close()

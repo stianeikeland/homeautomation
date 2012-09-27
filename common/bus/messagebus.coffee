@@ -1,8 +1,9 @@
 zmq = require 'zmq'
 nconf = require 'nconf'
 _ = require 'underscore'
+events = require 'events'
 
-class MessageBus
+class MessageBus extends events.EventEmitter
 
 	constructor: (useroptions = {}) ->
 
@@ -24,8 +25,17 @@ class MessageBus
 		@sub.connect nconf.get 'subAddress'
 		@push.connect nconf.get 'pushAddress'
 
+		@sub.on 'message', @_getMessage
+
 		if useroptions.subscribe?
 			@subscribe useroptions.subscribe
+
+	_getMessage: (topic, message) =>
+		try
+			jmessage = JSON.parse message
+			@emit 'event', topic, jmessage
+		catch error
+			console.log error
 
 	send: (data, callback) ->
 		try
@@ -40,8 +50,9 @@ class MessageBus
 
 		@sub.subscribe topic for topic in topics
 
-	on: (event, callback) ->
-		@sub.on event, callback
+#	on: (event, callback) ->
+#		@emitter.on event, callback
+#		@sub.on event, callback
 
 	close: () ->
 		@sub.close()
