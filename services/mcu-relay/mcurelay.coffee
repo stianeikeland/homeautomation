@@ -52,7 +52,7 @@ receiverTogglePower = () ->
 
 bus.on 'event', (topic, data) ->
 	console.log "Got message: #{JSON.stringify data}"
-	data.count = 1 if not pkg.count?
+	data.count = 1 if not data.count?
 
 	if data.action?
 		receiverTogglePower() if data.action is "power"
