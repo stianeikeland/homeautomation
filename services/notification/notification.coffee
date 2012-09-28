@@ -38,7 +38,6 @@ emailTarget = (target, pkg) ->
 		console.log err or msg
 
 handlePkg = (pkg) ->
-
 	pkg.subject ?= ""
 	pkg.content ?= ""
 

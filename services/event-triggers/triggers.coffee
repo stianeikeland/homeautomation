@@ -1,5 +1,6 @@
 require 'coffee-script'
 MessageBus = (require '../../common/bus/messagebus').MessageBus
+Sensors = (require '../../common/events/sensors').Sensors
 
 bus = new MessageBus {
 	subAddress: 'tcp://raspberrypi:9999',
@@ -7,6 +8,8 @@ bus = new MessageBus {
 	subscribe: ["sensor"],
 	identity: "triggers-#{process.pid}"
 }
+
+sensors = new Sensors bus
 
 muteEvent = {}
 highFridgeTempCounter = 0
@@ -46,9 +49,8 @@ checkRefrigeratorTemperature = (pkg) ->
 			notify "Refrigerator temperatur high", "Refrigerator temperature is #{pkg.temperature}"
 			setMuteEvent "refrigerator-temp", 60*60*1000
 
-bus.on 'event', (topic, pkg) ->
-	checkSensorVoltage pkg
-	checkRefrigeratorTemperature pkg
+sensors.on 'refrigerator', checkRefrigeratorTemperature
+sensors.on 'all', checkSensorVoltage
 
 process.on 'SIGINT', () ->
 	bus.close()

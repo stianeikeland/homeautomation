@@ -59,6 +59,5 @@ bus.on 'event', (topic, data) ->
 		receiverVolumeUp(data.count) if data.action is "volumeup"
 		receiverVolumeDown(data.count) if data.action is "volumedown"
 
-
 process.on 'SIGINT', () ->
 	bus.close()
