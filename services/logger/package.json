@@ -1,0 +1,19 @@
+{
+  "author": "Stian Eikeland <stian@eikeland.se>",
+  "name": "logger",
+  "description": "logger service for home automation system",
+  "version": "0.0.1",
+  "repository": {
+    "url": ""
+  },
+  "dependencies": {
+	"coffee-script":"*",
+	"nconf":"*",
+	"request":"*"
+	},
+  "devDependencies": {},
+  "optionalDependencies": {},
+  "engines": {
+    "node": "*"
+  }
+}
