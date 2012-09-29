@@ -1,6 +1,8 @@
 node_modules
 *config.json
 
+common/test.coffee
+
 # OS generated files #
 ######################
 .DS_Store
