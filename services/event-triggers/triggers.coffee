@@ -47,7 +47,7 @@ sensorBoundsTrigger = (sensor, property, lowerbound, upperbound, countlimit = 1,
 		sensors.once sensor, (data) ->
 			outsideBounds = (data[property] < lowerbound or data[property] > upperbound)
 			if count >= countlimit and outsideBounds
-				notify "#{sensor} #{property} outside valid range", "#{sensor} #{property} is #{data[property]}"
+				notify "#{sensor} #{property} is #{data[property]}", "#{sensor} #{property} outside valid range (#{lowerbound} - #{upperbound})"
 				setTimeout setTrigger, wrapuptime
 			else if outsideBounds
 				setTrigger count + 1
@@ -80,10 +80,11 @@ day = 24 * hour
 
 # TRIGGER CONDITIONS #
 
-# Notify if temperature in the refrigerator is outside -5..7 for 10 minutes.
-sensorBoundsTrigger 'refrigerator', 'temperature', 10, -5, 7, hour
-# Notify if temperature in livingroom is outside 5..30 for 5 minutes
-sensorBoundsTrigger 'livingroom-bookshelf', 'temperature', 5, 5, 30, hour
+#sensorBoundsTrigger = (sensor, property, lowerbound, upperbound, countlimit = 1, wrapuptime = 60*60*1000)
+# Notify if temperature in the refrigerator is outside -2..7 for 10 minutes.
+sensorBoundsTrigger 'refrigerator', 'temperature', -2, 7, 10, hour
+# Notify if temperature in livingroom is outside 5..30 for 10 minutes
+sensorBoundsTrigger 'livingroom-bookshelf', 'temperature', 5, 30, 10, hour
 
 # Notify if sensors are not reporting in within 5 minutes, wait 5 hours for next notification
 checkIfMissing sensor, 5 * minute, 5 * hour for sensor in sensorlist
