@@ -86,5 +86,5 @@ sensorBoundsTrigger 'refrigerator', 'temperature', -2, 7, 10, hour
 # Notify if temperature in livingroom is outside 5..30 for 10 minutes
 sensorBoundsTrigger 'livingroom-bookshelf', 'temperature', 5, 30, 10, hour
 
-# Notify if sensors are not reporting in within 5 minutes, wait 5 hours for next notification
-checkIfMissing sensor, 5 * minute, 5 * hour for sensor in sensorlist
+# Notify if sensors are not reporting in within 10 minutes, wait 5 hours for next notification
+checkIfMissing sensor, 15 * minute, 5 * hour for sensor in sensorlist
