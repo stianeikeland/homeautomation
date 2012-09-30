@@ -46,6 +46,8 @@ pushToCosm = () ->
 # Push data to cosm every 30 sec
 setInterval pushToCosm, 30000
 
+console.log "Logger running.."
+
 sensors.on 'all', (data) ->
 	logQueue["temperature-#{data.location}"] = data.temperature if data.location? and data.temperature?
 	logQueue["voltage-#{data.location}"] = data.voltage if data.location? and data.voltage?
