@@ -36,7 +36,7 @@ pushToCosm = () ->
 
 	logQueue = {}
 
-	console.dir data
+	#console.dir data
 	return if data.length == 0
 
 	cosmRequest = cosmRequestTemplate
