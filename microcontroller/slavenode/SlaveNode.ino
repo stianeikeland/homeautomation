@@ -81,10 +81,11 @@ static int vccRead (byte count = 4)
 			sleep_mode();
 	}
 	bitClear(ADCSRA, ADIE);
+
+	return (ADC) ? (1100L*1023L)/ADC : ADC;
 	// convert ADC readings to fit in one byte, i.e. 20 mV steps:
 	// 1.0V = 0, 1.8V = 40, 3.3V = 115, 5.0V = 200, 6.0V = 250
 	// return (55U * 1024U) / (ADC + 1) - 50;
-	return ADC;
 }
 
 void prepareSensorData()
@@ -114,4 +115,5 @@ void loop()
 
 	// Put microcontroller to sleep for x seconds
 	Sleepy::loseSomeTime(SLEEPTIME * 1000);
+	//delay(SLEEPTIME*1000);
 }

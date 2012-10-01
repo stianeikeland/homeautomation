@@ -34,7 +34,7 @@ notify = (subject, content, action = 'prowl') ->
 
 # Warn if any sensors drop below 3.10v
 checkSensorVoltage = (pkg) ->
-	if pkg.voltage? and pkg.voltage < 310 and not muteEvent["#{pkg.nodeid}-voltage"]
+	if pkg.voltage? and pkg.voltage <= 3100 and not muteEvent["#{pkg.nodeid}-voltage"]
 		setMuteEvent "#{pkg.nodeid}-voltage"
 		notify "Sensor voltage low - #{pkg.location}", "Voltage on sensor '#{pkg.location}' is #{pkg.voltage} < 3.10 volt"
 
