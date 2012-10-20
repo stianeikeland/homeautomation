@@ -1,0 +1,38 @@
+{
+	"switches": {
+	    "0x12345671/1": "kitchen-coffee",
+	    "0x12345672/1": "kitchen-water",
+	    "0x12345673/1": "bedroom-lights",
+	    "0x12345674/1": "bedroom-unused",
+	    "0x12345675/1": "remote-1",
+	    "0x12345676/1": "remote-2",
+	    "0x12345677/1": "remote-3",
+	    "0x12345678/1": "door-lastmanout"
+	},
+	"receivers": {
+	    "kitchen-coffee": "0x87654321/1",
+	    "kitchen-water": "0x87654322/1",
+	    "bedroom-rooflights": "0x87654323/1",
+	    "bedroom-bedlights": "0x87654324/1",
+	},
+	"triggerconfig": {
+		"door-lastmanout": {
+			"off": [
+				{"location": "kitchen-coffee", "command":"off"},
+				{"location": "kitchen-water", "command":"off"},
+				{"location": "bedroom-bedlights", "command":"off"},
+				{"location": "bedroom-rooflights", "command":"off"}
+			]
+		},
+		"remote-1": {
+			"on": [
+				{"location": "bedroom-rooflights", "command":"on"},
+				{"location": "bedroom-bedlights", "command":"on"}
+			],
+			"off": [
+				{"location": "bedroom-rooflights", "command":"off"},
+				{"location": "bedroom-bedlights", "command":"off"}
+			]
+		}
+	}
+}

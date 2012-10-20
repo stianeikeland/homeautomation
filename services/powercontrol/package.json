@@ -1,0 +1,19 @@
+{
+  "author": "Stian Eikeland <stian@eikeland.se>",
+  "name": "powercontrol",
+  "description": "Bus service for talking to rfxcom - lighting/power control",
+  "version": "0.0.1",
+  "repository": {
+    "url": ""
+  },
+  "dependencies": {
+	"coffee-script":"*",
+	"nconf":"*",
+	"rfxcom":"*"
+	},
+  "devDependencies": {},
+  "optionalDependencies": {},
+  "engines": {
+    "node": "*"
+  }
+}
