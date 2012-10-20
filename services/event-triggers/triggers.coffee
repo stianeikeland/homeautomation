@@ -1,20 +1,24 @@
 require 'coffee-script'
 MessageBus = (require '../../common/bus/messagebus').MessageBus
 Sensors = (require '../../common/events/sensors').Sensors
+Power = (require '../../common/events/powerevents').PowerEvents
 
 bus = new MessageBus {
 	subAddress: 'tcp://raspberrypi:9999',
 	pushAddress: 'tcp://raspberrypi:8888',
-	subscribe: ["sensor"],
+	subscribe: ["sensor", "power"],
 	identity: "triggers-#{process.pid}"
 }
 
 sensors = new Sensors bus
+power = new Power bus
 
 process.on 'SIGINT', () ->
 	bus.close()
 
 muteEvent = {}
+
+timers = {}
 
 setMuteEvent = (event, timeout = 24*60*60*1000) ->
 	muteEvent[event] = true
@@ -70,6 +74,23 @@ checkIfMissing = (sensor, timeout = 10*60*1000, wrapuptime = 60*60*1000) ->
 
 	setTrigger()
 
+# safety timer for things like coffee-maker and water heater
+safetyTimer = (event, delay) ->
+	powerDown = () ->
+		bus.send {
+			event: "power",
+			type: "command",
+			command: "off",
+			location: event.location
+		}
+		delete timers[event.location]
+		console.log "Safety timer for #{event.location} triggered."
+
+	if event.command? and event.command is "on"
+		console.log "Setting safety timer trigger for #{event.location}."
+		clearTimeout timers[event.location] if timers[event.location]?
+		timers[event.location] = setTimeout powerDown, delay
+
 
 # TRIGGER HELPERS #
 
@@ -88,3 +109,7 @@ sensorBoundsTrigger 'livingroom-bookshelf', 'temperature', 5, 30, 10, hour
 
 # Notify if sensors are not reporting in within 10 minutes, wait 5 hours for next notification
 checkIfMissing sensor, 15 * minute, 5 * hour for sensor in sensorlist
+
+# Safetytimer, turn off after x minutes:
+power.on 'kitchen-coffee', (event) -> safetyTimer event, 60 * minute
+power.on 'kitchen-water', (event) -> safetyTimer event, 10 * minute

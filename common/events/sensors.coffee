@@ -11,8 +11,9 @@ class Sensors extends events.EventEmitter
 		@messagebus.on 'event', @handleEvent
 
 	handleEvent: (topic, event) =>
-		@emit event.nodeid, event if event.nodeid?
-		@emit event.location, event if event.location?
-		@emit 'all', event
+		if topic.toString() is 'sensor'
+			@emit event.nodeid, event if event.nodeid?
+			@emit event.location, event if event.location?
+			@emit 'all', event
 
 exports.Sensors = Sensors
