@@ -18,8 +18,8 @@ class PowerEvents extends events.EventEmitter
 			@emit 'all', event
 
 	send: (event) =>
-		event.event = "power"
-		event.type = "command"
+		event.event ?= "power"
+		event.type ?= "command"
 		@messagebus.send event
 
 exports.PowerEvents = PowerEvents

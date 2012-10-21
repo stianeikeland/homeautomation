@@ -13,7 +13,7 @@
 	    "kitchen-coffee": "0x87654321/1",
 	    "kitchen-water": "0x87654322/1",
 	    "bedroom-rooflights": "0x87654323/1",
-	    "bedroom-bedlights": "0x87654324/1",
+	    "bedroom-bedlights": "0x87654324/1"
 	},
 	"triggerconfig": {
 		"door-lastmanout": {
