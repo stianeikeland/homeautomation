@@ -1,6 +1,6 @@
 forever = require 'forever-monitor'
 
-serviceList = ["mcu-relay", "notification", "powercontrol", "logger", "event-triggers"]
+serviceList = ["mcu-relay", "notification", "powercontrol", "logger", "event-triggers", "heating"]
 
 createProcess = (app, path = 'services/') ->
 	proc = new forever.Monitor "#{app}.coffee", {
