@@ -1,8 +1,8 @@
-rfxcom     = require 'rfxcom'
-MessageBus = (require 'homeauto').MessageBus
-PowerEvents      = (require 'homeauto').PowerEvents
 
-units      = require './powerconfig.json'
+rfxcom       = require 'rfxcom'
+MessageBus   = (require 'homeauto').MessageBus
+PowerEvents  = (require 'homeauto').PowerEvents
+units        = require './powerconfig.json'
 
 bus = new MessageBus { identity: "rfxcom-#{process.pid}" }
 powerevents = new PowerEvents bus

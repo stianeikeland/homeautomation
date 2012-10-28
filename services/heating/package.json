@@ -1,0 +1,18 @@
+{
+  "author": "Stian Eikeland <stian@eikeland.se>",
+  "name": "heating",
+  "description": "Bus service for talking to control heating",
+  "version": "0.0.1",
+  "repository": {
+    "url": ""
+  },
+  "dependencies": {
+	"node-schedule":"*",
+	"datejs":"*"
+	},
+  "devDependencies": {},
+  "optionalDependencies": {},
+  "engines": {
+    "node": "*"
+  }
+}

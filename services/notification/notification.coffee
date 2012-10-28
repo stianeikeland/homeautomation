@@ -7,8 +7,6 @@ MessageBus = (require 'homeauto').MessageBus
 
 # Set up zmq socket, connect and subscribe to notification events
 bus = new MessageBus {
-	subAddress: 'tcp://raspberrypi:9999',
-	pushAddress: 'tcp://raspberrypi:8888',
 	subscribe: ["notification"],
 	identity: "notification-#{process.pid}"
 }
