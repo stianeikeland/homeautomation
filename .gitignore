@@ -2,7 +2,7 @@ node_modules
 !/node_modules
 
 *config.json
-common/test.coffee
+test.coffee
 
 # OS generated files #
 ######################
