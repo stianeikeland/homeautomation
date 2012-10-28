@@ -1,12 +1,10 @@
 # Logger service for home automation
 # Pushes sensor data to cosm every 30 seconds
 
-require 'coffee-script'
-
 request    = require 'request'
 nconf      = require 'nconf'
-MessageBus = (require '../../common/bus/messagebus').MessageBus
-Sensors    = (require '../../common/events/sensors').Sensors
+MessageBus = (require 'homeauto').MessageBus
+Sensors    = (require 'homeauto').Sensors
 
 nconf.argv().env().file {file: 'cosmconfig.json'}
 

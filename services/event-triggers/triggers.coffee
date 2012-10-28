@@ -1,11 +1,8 @@
-require 'coffee-script'
-MessageBus = (require '../../common/bus/messagebus').MessageBus
-Sensors = (require '../../common/events/sensors').Sensors
-Power = (require '../../common/events/powerevents').PowerEvents
+MessageBus = (require 'homeauto').MessageBus
+Sensors    = (require 'homeauto').Sensors
+Power      = (require 'homeauto').PowerEvents
 
 bus = new MessageBus {
-	subAddress: 'tcp://raspberrypi:9999',
-	pushAddress: 'tcp://raspberrypi:8888',
 	subscribe: ["sensor", "power"],
 	identity: "triggers-#{process.pid}"
 }

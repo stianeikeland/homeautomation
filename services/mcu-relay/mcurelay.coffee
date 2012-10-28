@@ -1,5 +1,5 @@
 serialport = require 'serialport'
-MessageBus = (require '../../common/bus/messagebus').MessageBus
+MessageBus = (require 'homeauto').MessageBus
 
 bus = new MessageBus {
 	subAddress: 'tcp://raspberrypi:9999',

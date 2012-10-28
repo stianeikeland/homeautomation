@@ -1,11 +1,9 @@
 # Notification service for home automation system
 
-require 'coffee-script'
-
-nconf   = require 'nconf'
-Email   = (require './lib/email').Email
-Prowl   = (require './lib/prowl').Prowl
-MessageBus = (require '../../common/bus/messagebus').MessageBus
+nconf      = require 'nconf'
+Email      = (require './lib/email').Email
+Prowl      = (require './lib/prowl').Prowl
+MessageBus = (require 'homeauto').MessageBus
 
 # Set up zmq socket, connect and subscribe to notification events
 bus = new MessageBus {

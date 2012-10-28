@@ -1,10 +1,8 @@
-require 'coffee-script'
-rfxcom = require 'rfxcom'
+rfxcom     = require 'rfxcom'
+MessageBus = (require 'homeauto').MessageBus
+PowerEvents      = (require 'homeauto').PowerEvents
 
-units = require './powerconfig.json'
-
-MessageBus = (require '../../common/bus/messagebus').MessageBus
-PowerEvents = (require '../../common/events/powerevents').PowerEvents
+units      = require './powerconfig.json'
 
 bus = new MessageBus { identity: "rfxcom-#{process.pid}" }
 powerevents = new PowerEvents bus
