@@ -6,7 +6,6 @@ require 'datejs'
 MessageBus   = (require 'homeauto').MessageBus
 PowerEvents  = (require 'homeauto').PowerEvents
 Sensors      = (require 'homeauto').Sensors
-schedule     = require 'node-schedule'
 
 bus     = new MessageBus { identity: "heating-#{process.pid}" }
 sensors = new Sensors bus
