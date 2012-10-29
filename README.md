@@ -1,28 +1,41 @@
 Home automation
 ===============
 
-System for home automation based around:
-- NodeJS (most of the services on the bus)
-- ZeroMQ (message bus)
+My Coffee/NodeJS[nodejs] + 0MQ[zeromq] home automation setup.
+See my blog here for more details: blagg.tadkom.net[blagg]
 
-Also contains some microcontroller-code for arduino-compatible controllers with RFM12b radio.
+It consists of multiple services connected via a bus (zeromq):
 
-[Broker](https://github.com/stianeikeland/homeautomation/tree/master/broker)
-------
-Simple message broker with two zeromq sockets. One push/pull (input) and one pub/sub (output). Other services can subscribe to the events they are interested in.
+ - Broker[broker] - Push/pull + pub/sub message hub. Message central.
+ - Logger[logger] - Logs sensor data to cosm.com
+ - Event-Triggers[triggers] - Triggers events based on certain sensor data situations
+ - MCU-Relay[mcurelay] - Microcontroller relay - receives sensor data from jeenodes
+ - Notification[notification] - Sends notifications to iOS devices (prowl) and to email
+ - Powercontrol[powercontrol] - Controls and receives events from 433 mhz receivers/transmitter (RFXtrx433)
+ - Heating[heating] - Time based thermostat service (Todo: PID + motion sensors)
 
-NodeJS/Coffee-script
+Also contains some microcontroller-code for arduino-compatible controllers (Jeenode[jeenode]) with RFM12b radios.
 
-[MCU-Relay](https://github.com/stianeikeland/homeautomation/tree/master/services/mcu-relay)
----------
-Runs on a raspberry pi, connected to a microcontroller over serial/ttl. Receives messages sent by sensor-nodes (example temperature) and relays them to the message broker. Also receives (home cinema)-receiver events from the bus and relays them to the microcontroller.
+ - MasterNode[masternode] - Receives sensors readings from slavenodes, controls Pioneer Home-Cinema Receiver via SR-bus.
+ - SlaveNode[slavenode] - Sleeps, wakes once every minute, gather sensor data, transmits wirelessly to masternode.
 
-NodeJS/Coffee-script
+Other hardware used:
 
-[MasterNode](https://github.com/stianeikeland/homeautomation/tree/master/microcontroller/masternode) (microcontroller)
-------------
-Code for Master Node - receives wireless messages from sensor-nodes. Controls home cinema receiver via it's pioneer SR bus.
+ - RaspberryPi[raspberry] - I have everything running on this little linux capable ARM board.
+ - RFXtrx433[rfxcom] - 433 mhz transceiver, from RFXcom[rfxcom]. Controls Nexa power-relays, etc..
 
-[SlaveNode](https://github.com/stianeikeland/homeautomation/tree/master/microcontroller/slavenode) (microcontroller)
-------------
-Code for Slave/Sensor Node - battery powered and wireless. Spends most of the time sleeping, wakes up, reads sensors and transmits results to master node.
+[nodejs]:http://nodejs.org/
+[zeromq]:http://www.zeromq.org/
+[rfxcom]:http://www.rfxcom.com/store/Transceivers/12103
+[jeenode]:http://jeelabs.com/products/jeenode
+[masternode]:https://github.com/stianeikeland/homeautomation/tree/master/microcontroller/masternode
+[slavenode]:https://github.com/stianeikeland/homeautomation/tree/master/microcontroller/slavenode
+[broker]:https://github.com/stianeikeland/homeautomation/tree/master/broker
+[mcurelay]:https://github.com/stianeikeland/homeautomation/tree/master/services/mcu-relay
+[heating]:https://github.com/stianeikeland/homeautomation/tree/master/services/heating
+[powercontrol]:https://github.com/stianeikeland/homeautomation/tree/master/services/powercontrol
+[notification]:https://github.com/stianeikeland/homeautomation/tree/master/services/notification
+[logger]:https://github.com/stianeikeland/homeautomation/tree/master/services/logger
+[triggers]:https://github.com/stianeikeland/homeautomation/tree/master/services/event-triggers
+[raspberry]:http://raspberrypi.org/
+[blagg]:http://blagg.tadkom.net/tag/homeautomation/
