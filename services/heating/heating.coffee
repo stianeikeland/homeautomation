@@ -42,9 +42,9 @@ getTargetTemperature = () ->
 	now = new Date
 	table = if now.getDay() < 1 or now.getDay() > 5 then timeRulesWeekend else timeRulesWeekdays
 
-	i = table.length - 1
+	i = table.length
 	while --i >= 0
-		current = Date.parse table[i % table.length][0]
+		current = Date.parse table[i][0]
 		return table[i][1] if (now >= current)
 
 	return table[0][1]
