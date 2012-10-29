@@ -40,7 +40,7 @@ timeRulesWeekend = [
 
 getTargetTemperature = () ->
 	now = new Date
-	table = if now.getDay() < 2 then timeRulesWeekend else timeRulesWeekdays
+	table = if now.getDay() < 1 or now.getDay() > 5 then timeRulesWeekend else timeRulesWeekdays
 
 	i = table.length - 1
 	while --i >= 0
@@ -73,3 +73,5 @@ sensors.on sensorlocation, (event) ->
 
 # Set heating on / off every 5 minutes
 setInterval controlHeating, 5*60*1000
+
+console.log "Heating service running.."
