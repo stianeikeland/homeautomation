@@ -10,6 +10,8 @@ outputPort = 'tcp://*:9999'
 input = zmq.socket 'pull'
 output = zmq.socket 'pub'
 
+output.setsockopt zmq.ZMQ_HWM, 100
+
 input.identity = 'brokerin' + process.pid;
 output.identity = 'brokerout' + process.pid;
 
