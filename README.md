@@ -14,7 +14,9 @@ It consists of multiple services connected via a bus (zeromq):
  - [Powercontrol][powercontrol] - Controls and receives events from 433 mhz receivers/transmitter (RFXtrx433)
  - [Heating][heating] - Time based thermostat service (Todo: PID + motion sensors)
 
-Also contains some microcontroller-code for arduino-compatible controllers ([Jeenode][jeenode]) with RFM12b radios.
+They can be launched using [pm2](https://npmjs.org/package/pm2). `pm2 start homeautomation-pm2.json`
+
+The system also contains some microcontroller-code for arduino-compatible controllers ([Jeenode][jeenode]) with RFM12b radios.
 
  - [MasterNode][masternode] - Receives sensors readings from slavenodes, controls Pioneer Home-Cinema Receiver via SR-bus. Acts as a simple serial bridge.
  - [SlaveNode][slavenode] - Sleeps, wakes once every minute, gather sensor data, transmits wirelessly to masternode.

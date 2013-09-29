@@ -1,0 +1,37 @@
+[
+{
+  "name" : "broker",
+  "script" : "broker/broker.coffee",
+  "options": [""]
+},
+{
+  "name" : "mcu-relay",
+  "script" : "services/mcu-relay/mcu-relay.coffee",
+  "options": [""]
+},
+{
+  "name" : "powercontrol",
+  "script" : "services/powercontrol/powercontrol.coffee",
+  "options": [""]
+},
+{
+  "name" : "heating",
+  "script" : "services/heating/heating.coffee",
+  "options": [""]
+},
+{
+  "name" : "event-triggers",
+  "script" : "services/event-triggers/event-triggers.coffee",
+  "options": [""]
+},
+{
+  "name" : "notification",
+  "script" : "services/notification/notification.coffee",
+  "options": [""]
+},
+{
+  "name" : "logger",
+  "script" : "services/logger/logger.coffee",
+  "options": [""]
+}
+]
