@@ -91,7 +91,7 @@ safetyTimer = (event, delay) ->
 
 # TRIGGER HELPERS #
 
-sensorlist = ['refrigerator', 'livingroom-bookshelf']
+sensorlist = ['refrigerator', 'livingroom-bookshelf', 'bedroom']
 minute = 60 * 1000
 hour = 60 * minute
 day = 24 * hour
@@ -105,7 +105,7 @@ sensorBoundsTrigger 'refrigerator', 'temperature', -2, 7, 10, hour
 sensorBoundsTrigger 'livingroom-bookshelf', 'temperature', 5, 30, 10, hour
 
 # Notify if sensors are not reporting in within 10 minutes, wait 5 hours for next notification
-checkIfMissing sensor, 15 * minute, 5 * hour for sensor in sensorlist
+checkIfMissing sensor, 30 * minute, 5 * hour for sensor in sensorlist
 
 # Safetytimer, turn off after x minutes:
 power.on 'kitchen-coffee', (event) -> safetyTimer event, 60 * minute
