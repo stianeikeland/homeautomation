@@ -1,0 +1,24 @@
+!!!
+html
+    head
+        title= "Real time web chat"
+        script(src='/underscore/underscore-min.js')
+        script(src='/socket.io/socket.io.js')
+        script(src='/main.js')
+        script(src='/flot/jquery.js')
+        script(src='/flot/jquery.flot.js')
+        script(src='/flot/jquery.flot.time.js')
+        script(src='/flot/jquery.flot.crosshair.js')
+        style(type='text/css')
+            .graph { height: 320px; width: 50%; }
+            #tooltip {
+                position: absolute;
+                display: none;
+                border: 1px solid #424242;
+                padding: 2px;
+                background-color: #e9ebec;
+                opacity: 0.80;
+            }
+    body
+        #content
+            #graphs
