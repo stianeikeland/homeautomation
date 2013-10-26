@@ -1,0 +1,8 @@
+{
+	"name":"homeautomation-webui",
+	"dependencies": {
+		"flot": "~0.8.1",
+		"jquery": "~2.0.3",
+		"underscore": "~1.5.2"
+	}
+}

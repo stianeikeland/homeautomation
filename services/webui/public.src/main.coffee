@@ -67,7 +67,6 @@ window.onload = () ->
 			# TODO: only plot affected graphs
 			plotGraph graph, sensordata for graph in graphs
 
-	sensorSubscribe sensor for sensor in sensorlist
 
 	setUpToolTip = () ->
 		for x in graphs
@@ -75,8 +74,10 @@ window.onload = () ->
 				$("#tooltip").remove()
 				showToolTip item.pageX, item.pageY, "#{item.series.label}: #{item.datapoint[1]}" if item
 
+
 	showToolTip = (x, y, contents) ->
 		css = { top: y + 5, left: x + 5 }
 		$('<div id="tooltip">' + contents + '</div>').css(css).appendTo("body").fadeIn(200)
 
+	sensorSubscribe sensor for sensor in sensorlist
 	setUpToolTip()
