@@ -9,6 +9,7 @@ window.onload = () ->
 			min: 15
 			max: 30
 			tickDecimals: 0
+			tickSize: 1
 		xaxis:
 			mode: "time"
 			timezone: "browser"
@@ -16,19 +17,27 @@ window.onload = () ->
 			mode: "xy"
 		grid:
 			hoverable: true
+		legend:
+			position: "nw"
 
 	plotOptsOverride =
 		"other":
 			yaxis:
 				min: -2
 				max: 8
+				tickSize: 1
+				tickDecimals: 0
+		"voltage":
+			yaxis:
+				tickDecimals: 0
 
 	sensorlist = ['livingroom-bookshelf', 'refrigerator', 'bedroom']
 	sensordata = {}
 
 	graphs = [
-		{name: "rooms", sensors: ['livingroom-bookshelf', 'bedroom']},
-		{name: "other", sensors: ['refrigerator']}
+		{name: "voltage", attribute: "voltage", sensors: ['livingroom-bookshelf', 'bedroom', 'refrigerator']}
+		{name: "other", attribute: "temperature", sensors: ['refrigerator']}
+		{name: "rooms", attribute: "temperature", sensors: ['livingroom-bookshelf', 'bedroom']}
 		]
 
 	$("#graphs").prepend "<div class='graph' id='graph-#{x.name}'>" for x in graphs
@@ -43,8 +52,8 @@ window.onload = () ->
 		plotGraph graph, sensordata for graph in graphs
 
 
-	prepareGraphData = (sensor, data) ->
-		datapoints = _.map data, (x) -> [new Date(x.timestamp), x.temperature]
+	prepareGraphData = (sensor, attribute, data) ->
+		datapoints = _.map data, (x) -> [new Date(x.timestamp), x[attribute]]
 		{label: sensor, data: datapoints}
 
 
@@ -54,7 +63,7 @@ window.onload = () ->
 			if graph.name of plotOptsOverride
 			then _.extend {}, flotOpts, plotOptsOverride[graph.name]
 			else flotOpts
-		graphData = (prepareGraphData sensor, data[sensor] for sensor in graph.sensors)
+		graphData = (prepareGraphData sensor, graph.attribute, data[sensor] for sensor in graph.sensors)
 
 		$.plot "#graph-#{graph.name}", graphData, opts
 
