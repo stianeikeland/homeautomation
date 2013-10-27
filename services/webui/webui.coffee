@@ -6,15 +6,10 @@ coffeescript = require 'connect-coffee-script'
 express = require 'express'
 app = express()
 
-#express.static.mime.define({'text/x-coffeescript': ['coffee']});
-
-bus = new MessageBus {
-	subAddress: 'tcp://192.168.0.163:9999'
-	pushAddress: 'tcp://192.168.0.163:8888'
-}
+bus = new MessageBus
 
 sensors = new Sensors bus
-sensorsLocations = ['livingroom-bookshelf', 'bedroom', 'refrigerator']
+sensorsLocations = ['livingroom-bookshelf', 'bedroom', 'refrigerator', 'outside']
 
 cachedData = {}
 
@@ -47,6 +42,4 @@ cacheAndEmit location for location in sensorsLocations
 
 io.sockets.on 'connection', (socket) ->
 	console.log "Got connection"
-	#socket.emit 'sensors', sensorsLocations
 	socket.emit 'initial', cachedData
-	#setTimeout (() -> socket.emit 'initial', {bedroom: tmpdata2, "livingroom-bookshelf": lving}), 5000

@@ -2,14 +2,9 @@
 # Scraper for http://veret.gfi.uib.no/
 # Run via cron
 
-config = {
-	subAddress: 'tcp://raspberrypi:9999'
-	pushAddress: 'tcp://raspberrypi:8888'
-}
-
 request = require 'request'
 cheerio = require 'cheerio'
-bus = new (require 'homeauto').MessageBus config
+bus = new (require 'homeauto').MessageBus
 
 req = {
 	url: 'http://veret.gfi.uib.no/'

@@ -6,10 +6,11 @@ window.onload = () ->
 		points:
 			show: false
 		yaxis:
-			min: 15
-			max: 30
+			# min: 15
+			# max: 30
 			tickDecimals: 0
 			tickSize: 1
+			autoscaleMargin: 0.1
 		xaxis:
 			mode: "time"
 			timezone: "browser"
@@ -23,21 +24,22 @@ window.onload = () ->
 	plotOptsOverride =
 		"other":
 			yaxis:
-				min: -2
-				max: 8
+				# min: -2
+				# max: 8
 				tickSize: 1
 				tickDecimals: 0
+				autoscaleMargin: 0.2
 		"voltage":
 			yaxis:
 				tickDecimals: 0
 
-	sensorlist = ['livingroom-bookshelf', 'refrigerator', 'bedroom']
+	sensorlist = ['livingroom-bookshelf', 'refrigerator', 'bedroom', 'outside']
 	sensordata = {}
 
 	graphs = [
 		{name: "voltage", attribute: "voltage", sensors: ['livingroom-bookshelf', 'bedroom', 'refrigerator']}
 		{name: "other", attribute: "temperature", sensors: ['refrigerator']}
-		{name: "rooms", attribute: "temperature", sensors: ['livingroom-bookshelf', 'bedroom']}
+		{name: "rooms", attribute: "temperature", sensors: ['livingroom-bookshelf', 'bedroom', 'outside']}
 		]
 
 	$("#graphs").prepend "<div class='graph' id='graph-#{x.name}'>" for x in graphs
