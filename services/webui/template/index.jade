@@ -9,6 +9,7 @@ html
         script(src='/bower_components/flot/jquery.flot.crosshair.js')
         script(src='/socket.io/socket.io.js')
         script(src='/bower_components/bootstrap/dist/js/bootstrap.min.js')
+        script(src='/bower_components/handlebars/handlebars.js')
         script(src='/main.js')
         link(rel="stylesheet", href='/bower_components/bootstrap/dist/css/bootstrap.css')
         style(type='text/css')
@@ -21,11 +22,38 @@ html
                 background-color: #e9ebec;
                 opacity: 0.80;
             }
+            .sensor {
+                border: 1px dashed #aaa;
+                text-align: center;
+                padding: 10px;
+                margin-right: 10px;
+                margin-top: 10px;
+                height: 120px;
+            }
+
+            .sensor .heading {
+                font-size: 110%;
+                margin-top: 10px;
+            }
+
+            .sensor .value {
+                font-weight: 900;
+                font-size: 160%;
+                margin-top: 10px;
+            }
+        script(type='text/x-handlebars-template', id='status-template')
+            div(id='status-{{location}}' class='sensor col-xs-5 col-md-5')
+                .value
+                    {{temperature}} °C
+                .heading
+                    {{location}}
+
     body
         .container
-            .container.col-xs-12.col-md-4
-                h3 Status
-                #status
             .container.col-xs-12.col-md-8
                 h3 Graphs
                 #graphs
+            .container.col-xs-12.col-md-4
+                h3 Status
+                #status
+                    h4 sensors:

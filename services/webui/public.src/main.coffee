@@ -35,7 +35,10 @@ window.onload = () ->
 		{name: "rooms", attribute: "temperature", sensors: ['livingroom-bookshelf', 'bedroom', 'outside']}
 		]
 
-	$("#graphs").prepend "<div class='graph' id='graph-#{x.name}'>" for x in graphs
+	statusTemplate = Handlebars.compile $("#status-template").html()
+
+	$("#graphs").prepend "<div><h4>#{x.name}:</h4><div class='graph' id='graph-#{x.name}'/></div>" for x in graphs
+	$("#status").append statusTemplate {location: location, temperature: '--'} for location in sensorlist
 
 	socket = io.connect '#{window.location.protocol}://#{window.location.host}'
 
@@ -45,6 +48,9 @@ window.onload = () ->
 	socket.on 'initial', (data) ->
 		sensordata = data
 		plotGraph graph, sensordata for graph in graphs
+
+		for sensor in sensorlist
+			drawSensorStatus sensordata[sensor][0] if sensordata[sensor]?[0]?
 
 
 	prepareGraphData = (sensor, attribute, data) ->
@@ -66,10 +72,12 @@ window.onload = () ->
 	sensorSubscribe = (sensor) ->
 		console.info "Subscribing to #{sensor} events."
 		socket.on sensor, (data) ->
-			sensordata[sensor] = data
+			console.log data
+			sensordata[sensor].push data
 
 			# TODO: only plot affected graphs
 			plotGraph graph, sensordata for graph in graphs
+			drawSensorStatus data
 
 
 	setUpToolTip = () ->
@@ -82,6 +90,10 @@ window.onload = () ->
 	showToolTip = (x, y, contents) ->
 		css = { top: y + 5, left: x + 5 }
 		$('<div id="tooltip">' + contents + '</div>').css(css).appendTo("body").fadeIn(200)
+
+
+	drawSensorStatus = (data) ->
+		$("#status-#{data.location}").replaceWith statusTemplate data
 
 	sensorSubscribe sensor for sensor in sensorlist
 	setUpToolTip()
