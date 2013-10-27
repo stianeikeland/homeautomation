@@ -50,7 +50,7 @@ window.onload = () ->
 		plotGraph graph, sensordata for graph in graphs
 
 		for sensor in sensorlist
-			drawSensorStatus sensordata[sensor][0] if sensordata[sensor]?[0]?
+			drawSensorStatus sensordata[sensor].slice(-1)[0] if sensordata[sensor]?[0]?
 
 
 	prepareGraphData = (sensor, attribute, data) ->
