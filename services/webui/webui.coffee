@@ -3,6 +3,8 @@
 socketIO = require 'socket.io'
 coffeescript = require 'connect-coffee-script'
 
+CACHEWINDOW = 1000*60*60*24 # Cache sensor data for 24 hours
+
 express = require 'express'
 app = express()
 
@@ -31,14 +33,19 @@ app.get '/', (req, res) ->
 
 io = socketIO.listen app.listen 8900
 
-cacheAndEmit = (sensorLocation) ->
-	Bacon.fromEventTarget(sensors, sensorLocation)
-		.slidingWindow(60*60*24, 1)
-		.onValue (values) ->
-			io.sockets.emit sensorLocation, values
-			cachedData[sensorLocation] = values
+# Sliding window containing cachewindow ms sensor data.
+timeWindow = (window, val) ->
+	now = new Date
+	(window.filter (x) -> now - new Date(x.timestamp) < CACHEWINDOW).concat [val]
 
-cacheAndEmit location for location in sensorsLocations
+setUpSensorStream = (sensorLocation) ->
+	stream = Bacon.fromEventTarget(sensors, sensorLocation)
+	# Emit new value to listening clients
+	stream.onValue (val) -> io.sockets.emit sensorLocation, val
+	# Cache 24 hours of sensor data (given to clients on first connect)
+	stream.scan([], timeWindow).onValue (values) -> cachedData[sensorLocation] = values
+
+setUpSensorStream location for location in sensorsLocations
 
 io.sockets.on 'connection', (socket) ->
 	console.log "Got connection"
