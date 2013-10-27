@@ -6,11 +6,11 @@ window.onload = () ->
 		points:
 			show: false
 		yaxis:
-			# min: 15
-			# max: 30
+			position: 'right'
 			tickDecimals: 0
 			tickSize: 1
 			autoscaleMargin: 0.1
+			labelWidth: 35
 		xaxis:
 			mode: "time"
 			timezone: "browser"
@@ -22,16 +22,9 @@ window.onload = () ->
 			position: "nw"
 
 	plotOptsOverride =
-		"other":
-			yaxis:
-				# min: -2
-				# max: 8
-				tickSize: 1
-				tickDecimals: 0
-				autoscaleMargin: 0.2
 		"voltage":
 			yaxis:
-				tickDecimals: 0
+				tickSize: null
 
 	sensorlist = ['livingroom-bookshelf', 'refrigerator', 'bedroom', 'outside']
 	sensordata = {}
@@ -44,7 +37,7 @@ window.onload = () ->
 
 	$("#graphs").prepend "<div class='graph' id='graph-#{x.name}'>" for x in graphs
 
-	socket = io.connect 'http://127.0.0.1:8900'
+	socket = io.connect '#{window.location.protocol}://#{window.location.host}'
 
 	socket.on 'connect', () ->
 		console.log "connected"
@@ -63,7 +56,7 @@ window.onload = () ->
 		console.info "Plotting #{graph.name}"
 		opts =
 			if graph.name of plotOptsOverride
-			then _.extend {}, flotOpts, plotOptsOverride[graph.name]
+			then _.merge {}, flotOpts, plotOptsOverride[graph.name]
 			else flotOpts
 		graphData = (prepareGraphData sensor, graph.attribute, data[sensor] for sensor in graph.sensors)
 

@@ -2,15 +2,17 @@
 html
     head
         title="Homeautomation Dashboard"
-        script(src='/bower_components/underscore/underscore-min.js')
+        script(src='/bower_components/lodash/dist/lodash.min.js')
         script(src='/bower_components/jquery/jquery.js')
         script(src='/bower_components/flot/jquery.flot.js')
         script(src='/bower_components/flot/jquery.flot.time.js')
         script(src='/bower_components/flot/jquery.flot.crosshair.js')
         script(src='/socket.io/socket.io.js')
+        script(src='/bower_components/bootstrap/dist/js/bootstrap.min.js')
         script(src='/main.js')
+        link(rel="stylesheet", href='/bower_components/bootstrap/dist/css/bootstrap.css')
         style(type='text/css')
-            .graph { height: 320px; width: 50%; }
+            .graph { height: 320px; }
             #tooltip {
                 position: absolute;
                 display: none;
@@ -20,5 +22,10 @@ html
                 opacity: 0.80;
             }
     body
-        #content
-            #graphs
+        .container
+            .container.col-xs-12.col-md-4
+                h3 Status
+                #status
+            .container.col-xs-12.col-md-8
+                h3 Graphs
+                #graphs
