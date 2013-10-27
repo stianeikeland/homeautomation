@@ -12,8 +12,6 @@ req = {
 		"User-Agent": 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_6_8) AppleWebKit/534.57.2 (KHTML, like Gecko) Version/5.1.7 Safari/534.57.2'
 }
 
-bus.on "event", console.log
-
 parse = (err, resp, body) ->
 	process.exit 1 if err
 
