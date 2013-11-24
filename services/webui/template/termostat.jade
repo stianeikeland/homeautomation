@@ -1,0 +1,20 @@
+h3 Termostat
+.well#termostat
+    form#termostatform
+
+        div.form-group
+            label(for='target') Target temperature
+            select.form-control#target
+                - for (var i = 16; i < 30; i++) {
+                - if (i == 23)
+                    option(selected) #{i}
+                - else
+                    option #{i}
+                - }
+
+        div.form-group
+            label(for='hours') Duration (hours)
+            select.form-control#hours
+                - for (var i = 1; i < 48; i++)
+                    option #{i}
+        input.btn.btn-primary#settermostat(type="submit", value="Set termostat")
