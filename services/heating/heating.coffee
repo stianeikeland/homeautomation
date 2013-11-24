@@ -3,13 +3,12 @@
 
 require 'datejs'
 
-MessageBus   = (require 'homeauto').MessageBus
-PowerEvents  = (require 'homeauto').PowerEvents
-Sensors      = (require 'homeauto').Sensors
+{MessageBus, PowerEvents, Sensors, BusEvents} = require 'homeauto'
 
 bus     = new MessageBus { identity: "heating-#{process.pid}" }
 sensors = new Sensors bus
 power   = new PowerEvents bus
+termostatControl = new BusEvents bus, "termostat", ["type"]
 
 sensorlocation  = "livingroom-bookshelf"
 heaterlocation  = "livingroom-heating"
@@ -19,6 +18,12 @@ tempTimer       = false
 # Temperature targets for home / away
 temperatureHome = 23
 temperatureAway = 17
+
+temperatureOverride = null
+
+override =
+	temperature: null
+	endtime: null
 
 # Temporary, untill I get movement sensors in place..
 
@@ -37,8 +42,21 @@ timeRulesWeekend = [
 	["10:00", temperatureHome] # TODO: if movement
 ]
 
+clearOldOverride = () ->
+	return if not override.endtime?
+	now = new Date
+	endtime = new Date override.endtime
+
+	if now > endtime
+		console.log "Resetting override"
+		override =
+			temperature: null
+			endtime: null
 
 getTargetTemperature = () ->
+	if override.temperature? and override.temperature isnt false
+		return override.temperature
+
 	now = new Date
 	table = if now.getDay() < 1 or now.getDay() > 5 then timeRulesWeekend else timeRulesWeekdays
 
@@ -53,13 +71,19 @@ getTargetTemperature = () ->
 controlHeating = () ->
 	command = { location: heaterlocation, command: "off" }
 
+	clearOldOverride()
+
 	if not lastTemperature
 		power.send command
 		return
 
-	if lastTemperature.temperature? and lastTemperature.temperature < getTargetTemperature()
+	target = getTargetTemperature()
+
+	if lastTemperature.temperature? and lastTemperature.temperature < target
 		command.command = "on"
 	power.send command
+
+	termostatControl.send {type: 'target', temperature: target}
 
 
 sensors.on sensorlocation, (event) ->
@@ -70,6 +94,13 @@ sensors.on sensorlocation, (event) ->
 	clearOldTemp = () ->
 		lastTemperature = false
 	tempTimer = setTimeout clearOldTemp, 5*60*1000
+
+
+termostatControl.on 'setoverride', (data) ->
+	override = data if data.temperature? and data.endtime?
+	controlHeating()
+
+termostatControl.on 'all', console.log
 
 # Set heating on / off every 5 minutes
 setInterval controlHeating, 5*60*1000
