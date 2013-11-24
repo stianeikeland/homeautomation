@@ -8,7 +8,7 @@ window.onload = () ->
 		yaxis:
 			position: 'right'
 			tickDecimals: 0
-			tickSize: 1
+			tickSize: 2
 			autoscaleMargin: 0.1
 			labelWidth: 35
 		xaxis:
@@ -27,6 +27,7 @@ window.onload = () ->
 				tickSize: null
 
 	sensorlist = ['livingroom-bookshelf', 'refrigerator', 'bedroom', 'outside', 'termostat']
+	statuslist = ['heating']
 	sensordata = {}
 
 	graphs = [
@@ -35,10 +36,12 @@ window.onload = () ->
 		{name: "rooms", attribute: "temperature", sensors: ['termostat', 'livingroom-bookshelf', 'bedroom', 'outside']}
 		]
 
+	temperatureTemplate = Handlebars.compile $("#temperature-template").html()
 	statusTemplate = Handlebars.compile $("#status-template").html()
 
 	$("#graphs").prepend "<div><h4>#{x.name}:</h4><div class='graph' id='graph-#{x.name}'/></div>" for x in graphs
-	$("#status").append statusTemplate {location: location, temperature: '--'} for location in sensorlist
+	$("#status").append temperatureTemplate {location: location, temperature: '--'} for location in sensorlist
+	$("#status").append statusTemplate {name: name, status: '--'} for name in statuslist
 
 	socket = io.connect '#{window.location.protocol}://#{window.location.host}'
 
@@ -93,7 +96,7 @@ window.onload = () ->
 
 
 	drawSensorStatus = (data) ->
-		$("#status-#{data.location}").replaceWith statusTemplate data
+		$("#status-#{data.location}").replaceWith temperatureTemplate data
 
 	# Send termostat value to bus
 	$('#termostatform').submit () ->

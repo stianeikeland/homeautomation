@@ -1,0 +1,15 @@
+script(type='text/x-handlebars-template', id='temperature-template')
+    div(id='status-{{location}}', class='col-xs-6 col-md-6 sensorwrapper')
+        div(class='well sensor col-xs-12 col-md-12')
+            .value
+                {{temperature}} °C
+            .heading
+                {{location}}
+
+script(type='text/x-handlebars-template', id='status-template')
+    div(id='status-{{name}}', class='col-xs-6 col-md-6 sensorwrapper')
+        div(class='well sensor col-xs-12 col-md-12')
+            .value
+                {{status}}
+            .heading
+                {{name}}

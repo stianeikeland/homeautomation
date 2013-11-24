@@ -2,6 +2,11 @@
 html
     head
         title="Homeautomation Dashboard"
+
+        meta(name='viewport', content='width=device-width, initial-scale=0.7, maximum-scale=1.5, user-scalable=1')
+        meta(name='apple-mobile-web-app-capable', content='yes')
+        meta(name='apple-mobile-web-app-status-bar-style' content="black-translucent")
+
         script(src='/bower_components/lodash/dist/lodash.min.js')
         script(src='/bower_components/jquery/jquery.js')
         script(src='/bower_components/flot/jquery.flot.js')
@@ -15,7 +20,21 @@ html
         link(rel="stylesheet", href='/bower_components/bootstrap/dist/css/bootstrap.css')
 
         style(type='text/css').
-            .graph { height: 320px; }
+
+            body {
+                background-color: white;
+            }
+
+            .graph {
+                height: 320px;
+            }
+
+            @media (min-width:320px) {
+                .graph {
+                    height: 250px;
+                }
+            }
+
             #tooltip {
                 position: absolute;
                 display: none;
@@ -52,24 +71,18 @@ html
                 padding-bottom: 35px;
             }
 
-        script(type='text/x-handlebars-template', id='status-template')
-            div(id='status-{{location}}', class='col-xs-6 col-md-6 sensorwrapper')
-                div(class='well sensor col-xs-12 col-md-12')
-                    .value
-                        {{temperature}} °C
-                    .heading
-                        {{location}}
+        include templates
 
     body
         .container
-            .container.col-xs-12.col-md-8
-                h3 Graphs
-                #graphs
-            .container.col-xs-12.col-md-4
+
+            .col-xs-12.col-md-4.col-md-push-8
                 h3 Status
                 #status
                     h4 sensors:
-
                 .clearfix
-
                 include termostat
+
+            .col-xs-12.col-md-8.col-md-pull-4
+                h3 Graphs
+                #graphs

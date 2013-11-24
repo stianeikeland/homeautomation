@@ -83,7 +83,7 @@ controlHeating = () ->
 		command.command = "on"
 	power.send command
 
-	termostatControl.send {type: 'target', temperature: target}
+	termostatControl.send { type: 'target', temperature: target, status: command.command }
 
 
 sensors.on sensorlocation, (event) ->
