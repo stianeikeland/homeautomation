@@ -13,6 +13,7 @@ html
         script(src='/bower_components/moment/min/moment.min.js')
         script(src='/main.js')
         link(rel="stylesheet", href='/bower_components/bootstrap/dist/css/bootstrap.css')
+
         style(type='text/css').
             .graph { height: 320px; }
             #tooltip {
@@ -24,13 +25,16 @@ html
                 opacity: 0.80;
             }
             .sensor {
-                //border: 1px dashed #aaa;
                 text-align: center;
                 padding: 10px;
-                margin-right: 10px;
-                margin-top: 10px;
                 margin-bottom: 0px;
-                height: 120px;
+                min-height: 105px;
+            }
+
+            .sensorwrapper {
+                padding-right: 10px;
+                padding-left: 0px;
+                padding-bottom: 10px;
             }
 
             .sensor .heading {
@@ -43,12 +47,14 @@ html
                 font-size: 160%;
                 margin-top: 10px;
             }
+
         script(type='text/x-handlebars-template', id='status-template')
-            div(id='status-{{location}}' class='col-xs-5 col-md-5 well sensor')
-                .value
-                    {{temperature}} °C
-                .heading
-                    {{location}}
+            div(id='status-{{location}}', class='col-xs-6 col-md-6 sensorwrapper')
+                div(class='well sensor col-xs-12 col-md-12')
+                    .value
+                        {{temperature}} °C
+                    .heading
+                        {{location}}
 
     body
         .container
