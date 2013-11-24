@@ -5,6 +5,10 @@ coffeescript = require 'connect-coffee-script'
 
 CACHEWINDOW = 1000*60*60*24 # Cache sensor data for 24 hours
 
+authentication =
+	user: process.env.WEBUIUSER || "username"
+	pass: process.env.WEBUIPASS || "password"
+
 express = require 'express'
 app = express()
 
@@ -26,6 +30,9 @@ app.use coffeescript {
 	dest: __dirname + '/public'
 	bare: true
 }
+
+app.use express.basicAuth (user, pass) ->
+	user is authentication.user and pass is authentication.pass
 
 app.use express.static __dirname + '/public'
 app.use '/bower_components', express.static __dirname + '/bower_components'
