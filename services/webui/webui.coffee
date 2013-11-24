@@ -1,4 +1,4 @@
-{MessageBus, Sensors} = require 'homeauto'
+{MessageBus, Sensors, BusEvents} = require 'homeauto'
 {Bacon} = require 'baconjs'
 socketIO = require 'socket.io'
 coffeescript = require 'connect-coffee-script'
@@ -12,6 +12,8 @@ bus = new MessageBus
 
 sensors = new Sensors bus
 sensorsLocations = ['livingroom-bookshelf', 'bedroom', 'refrigerator', 'outside']
+
+termostat = new BusEvents bus, "termostat", ["type"]
 
 cachedData = {}
 
@@ -47,6 +49,19 @@ setUpSensorStream = (sensorLocation) ->
 
 setUpSensorStream location for location in sensorsLocations
 
+setUpTermostatStream = () ->
+	stream = (Bacon.fromEventTarget termostat, "target")
+		.map (data) ->
+			data.location = "termostat"
+			return data
+	stream.onValue (val) -> io.sockets.emit "termostat", val
+	stream.scan([], timeWindow).onValue (values) -> cachedData["termostat"] = values
+
+setUpTermostatStream()
+
 io.sockets.on 'connection', (socket) ->
 	console.log "Got connection"
 	socket.emit 'initial', cachedData
+
+	socket.on 'bus', (msg) ->
+		bus.send msg

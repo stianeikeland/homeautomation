@@ -10,9 +10,10 @@ html
         script(src='/socket.io/socket.io.js')
         script(src='/bower_components/bootstrap/dist/js/bootstrap.min.js')
         script(src='/bower_components/handlebars/handlebars.js')
+        script(src='/bower_components/moment/min/moment.min.js')
         script(src='/main.js')
         link(rel="stylesheet", href='/bower_components/bootstrap/dist/css/bootstrap.css')
-        style(type='text/css')
+        style(type='text/css').
             .graph { height: 320px; }
             #tooltip {
                 position: absolute;
@@ -23,11 +24,12 @@ html
                 opacity: 0.80;
             }
             .sensor {
-                border: 1px dashed #aaa;
+                //border: 1px dashed #aaa;
                 text-align: center;
                 padding: 10px;
                 margin-right: 10px;
                 margin-top: 10px;
+                margin-bottom: 0px;
                 height: 120px;
             }
 
@@ -42,7 +44,7 @@ html
                 margin-top: 10px;
             }
         script(type='text/x-handlebars-template', id='status-template')
-            div(id='status-{{location}}' class='sensor col-xs-5 col-md-5')
+            div(id='status-{{location}}' class='col-xs-5 col-md-5 well sensor')
                 .value
                     {{temperature}} °C
                 .heading
@@ -57,3 +59,7 @@ html
                 h3 Status
                 #status
                     h4 sensors:
+
+                .clearfix
+
+                include termostat

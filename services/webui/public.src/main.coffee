@@ -26,13 +26,13 @@ window.onload = () ->
 			yaxis:
 				tickSize: null
 
-	sensorlist = ['livingroom-bookshelf', 'refrigerator', 'bedroom', 'outside']
+	sensorlist = ['livingroom-bookshelf', 'refrigerator', 'bedroom', 'outside', 'termostat']
 	sensordata = {}
 
 	graphs = [
 		{name: "voltage", attribute: "voltage", sensors: ['livingroom-bookshelf', 'bedroom', 'refrigerator']}
 		{name: "other", attribute: "temperature", sensors: ['refrigerator']}
-		{name: "rooms", attribute: "temperature", sensors: ['livingroom-bookshelf', 'bedroom', 'outside']}
+		{name: "rooms", attribute: "temperature", sensors: ['livingroom-bookshelf', 'bedroom', 'outside', 'termostat']}
 		]
 
 	statusTemplate = Handlebars.compile $("#status-template").html()
@@ -94,6 +94,22 @@ window.onload = () ->
 
 	drawSensorStatus = (data) ->
 		$("#status-#{data.location}").replaceWith statusTemplate data
+
+	# Send termostat value to bus
+	$('#termostatform').submit () ->
+		form = $('#termostatform')
+		hours = form.find('#hours').val()
+
+		termostat=
+			event: "termostat"
+			type: "setoverride"
+			temperature: form.find('#target').val()
+			endtime: moment().add('hours', hours).toDate()
+
+		socket.emit 'bus', termostat
+		console.info "Setting termostat target #{termostat.temperature} for #{hours} hours."
+
+		return false
 
 	sensorSubscribe sensor for sensor in sensorlist
 	setUpToolTip()

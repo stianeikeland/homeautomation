@@ -5,6 +5,7 @@
 		"jquery": "~2.0.3",
 		"bootstrap": "~3.0.0",
 		"lodash": "~2.2.1",
-		"handlebars": "~1.0.0"
+		"handlebars": "~1.0.0",
+		"moment": "~2.4.0"
 	}
 }
