@@ -32,7 +32,7 @@ window.onload = () ->
 	graphs = [
 		{name: "voltage", attribute: "voltage", sensors: ['livingroom-bookshelf', 'bedroom', 'refrigerator']}
 		{name: "other", attribute: "temperature", sensors: ['refrigerator']}
-		{name: "rooms", attribute: "temperature", sensors: ['livingroom-bookshelf', 'bedroom', 'outside', 'termostat']}
+		{name: "rooms", attribute: "temperature", sensors: ['termostat', 'livingroom-bookshelf', 'bedroom', 'outside']}
 		]
 
 	statusTemplate = Handlebars.compile $("#status-template").html()
