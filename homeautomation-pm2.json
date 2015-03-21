@@ -1,37 +1,50 @@
 [
 {
   "name" : "broker",
-  "script" : "broker/broker.coffee",
-  "options": [""]
+  "script" : "broker.coffee",
+  "options": [""],
+  "cwd": "broker/"
 },
 {
   "name" : "mcu-relay",
-  "script" : "services/mcu-relay/mcu-relay.coffee",
-  "options": [""]
+  "script" : "mcu-relay.coffee",
+  "options": [""],
+  "cwd": "services/mcu-relay/"
 },
 {
   "name" : "powercontrol",
-  "script" : "services/powercontrol/powercontrol.coffee",
-  "options": [""]
+  "script" : "powercontrol.coffee",
+  "options": [""],
+  "cwd": "services/powercontrol/"
 },
 {
   "name" : "heating",
-  "script" : "services/heating/heating.coffee",
-  "options": [""]
+  "script" : "heating.coffee",
+  "options": [""],
+  "cwd": "services/heating/"
 },
 {
   "name" : "event-triggers",
-  "script" : "services/event-triggers/event-triggers.coffee",
-  "options": [""]
+  "script" : "event-triggers.coffee",
+  "options": [""],
+  "cwd": "services/event-triggers/"
 },
 {
   "name" : "notification",
-  "script" : "services/notification/notification.coffee",
-  "options": [""]
+  "script" : "notification.coffee",
+  "options": [""],
+  "cwd": "services/notification/"
 },
 {
   "name" : "logger",
-  "script" : "services/logger/logger.coffee",
-  "options": [""]
+  "script" : "logger.coffee",
+  "options": [""],
+  "cwd": "services/logger/"
+},
+{
+  "name": "webui",
+  "script": "webui.coffee",
+  "options": [""],
+  "cwd": "services/webui"
 }
 ]
